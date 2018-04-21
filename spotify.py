@@ -14,7 +14,9 @@ def saveResults(r):
     for i in range(0,5):
         title = songs[i]["name"]
         album = songs[i]["album"]["name"]
+        artwork = songs[i]["album"]["images"][0]["url"]
         artist = songs[i]["artists"][0]["name"]
         uri = songs[i]["id"]
-        results.append(Song(title, album, artist, uri))
+        explicit = songs[i]["explicit"]
+        results.append(Song(title, album, artwork, artist, uri, explicit))
     return results
