@@ -11,15 +11,9 @@ searchResults = []
 
 @app.route('/') #Queue
 def index():
-    print(songs.size)
-    np = songs.get()
-    songArra = songs.queue
-    if np != None:
-        songs.add(np)
-    return render_template('queue.html', songArray=songArra, size=songs.size, nowPlaying=np)
+    #print(songs.nowPlaying.info['name'])
+    return render_template('queue.html', songArray=songs.queue, size=songs.size, nowPlaying=songs.nowPlaying)
         
-
-
 @app.route('/search', methods=['GET', 'POST'])
 def search():
     global searchResults
@@ -49,6 +43,10 @@ def downvote(uri):
 def upvote(uri):
     songs.upvote(uri)
     return redirect("/", code=302)
+
+def nextSong():
+    songs.nowPlaying = songs.get()
+    redirect('/', code=302)
 
 if __name__ == '__main__':
     app.run(host = '127.0.0.1', port=8000, debug=True)

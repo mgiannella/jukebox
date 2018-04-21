@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 {% block container %}
-<form method="POST">
+<form action="/search" method="POST">
     <div class="mx-auto input-group" style="width:30%">
-        <input type="text" class="form-control" placeholder="Enter a Song..." id="SongSearch">
+        <input type="text" class="form-control" placeholder="Enter a Song..." name="SongSearch" id="SongSearch">
         <span class="input-group-btn">
           <input class="btn btn-default" type="submit" value="Submit"></button>
         </span>
