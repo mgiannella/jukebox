@@ -1,5 +1,12 @@
 {% extends 'base.html' %}
 {% block container %}
+<form action="/search" method="POST">
+  <div class="mx-auto input-group" style="width:30%">
+      <input type="text" class="form-control" placeholder="Enter a Song..." name="SongSearch" id="SongSearch">
+      <span class="input-group-btn">
+        <input class="btn btn-default" type="submit" value="Submit"></button>
+      </span>
+  </div>
 <div class="mx-auto card" style="width: 30%; ">
         <div class="card-header">
           {{ songArray[0].info['name'] }} - {{ songArray[0].info['artist']}} <!--This will display the song that is now playing if rendered in Flask properly-->
