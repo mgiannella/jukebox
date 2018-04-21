@@ -1,5 +1,5 @@
 class Song:
-    def __initi__(self, name, album, artist, URI, score):
+    def __initi__(self, name, album, artist, URI):
         self.name = name,
         self.album = album,
         self.artist = artist,
