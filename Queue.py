@@ -7,9 +7,6 @@ class Queue:
         self.nowPlaying = None
 
     def add(self, Song): 
-        if self.size == 0: 
-            self.nowPlaying = Song
-        else: 
             duplicate = False
             for item in self.queue: 
                 song_uri = item.info['uri']
