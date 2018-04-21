@@ -18,20 +18,22 @@ class Queue:
         self.queue.sort(key = lambda s: s.info['score'], reverse = True)
     
     def get(self): 
-        return self.queue[0]
+        if self.size == 0:
+            return
+        else:
+            return self.queue.pop(0)
     
     def upvote(self, URI): 
         for item in self.queue: 
-            if item.info['uri'] == URI.info['uri']: 
+            if item.info['uri'] == URI: 
                 item.info['score'] += 1
         self.queue.sort(key = lambda s: s.info['score'], reverse = True)
     
     def downvote(self, URI): 
         for item in self.queue: 
-            if item.info['uri'] == URI.info['uri']: 
+            if item.info['uri'] == URI: 
                 item.info['score'] -= 1
         self.queue.sort(key = lambda s: s.info['score'], reverse = True)
 
-    def size(self): 
-        return self.size
+
     
