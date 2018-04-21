@@ -10,15 +10,11 @@ def auth():
 def saveResults(r):
     results = []
     json = r
-    songs=json['tracks']['items']
+    songs=json["tracks"]["items"]
     for i in range(0,5):
-        uri = songs[i]['id']
-        album = songs[i]['album']['name']
-        artist = songs[i]['artists']['name']
-        title = songs[i]['name']
-        results[i] = Song(title, album, artist, uri)
-        print(uri)
-        print(album)
-        print(artist)
-        print(title)
+        title = songs[i]["name"]
+        album = songs[i]["album"]["name"]
+        artist = songs[i]["artists"][0]["name"]
+        uri = songs[i]["id"]
+        results.append(Song(title, album, artist, uri))
     return results
