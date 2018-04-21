@@ -12,12 +12,12 @@
 <div class="mx-auto card" style="width: 30%; ">
         
         <div class="card-header">
-          {{ nowPlaying.info['name'] }} - {{ nowPlaying.info['artist']}} <!--This will display the song that is now playing if rendered in Flask properly-->
+          <img src="{{nowPlaying.info['artwork']}}" height="50px" width="50px" style="margin-right: 10px">{{ nowPlaying.info['name'] }} - {{ nowPlaying.info['artist']}} <!--This will display the song that is now playing if rendered in Flask properly-->
         </div>
         {% if size > 0 %}
         <ul class="list-group list-group-flush">
             {% for song in songArray %}
-          <li class="list-group-item">{{song.info['name']}} - {{song.info['artist']}} <a href="/downvote/{{song.info['uri']}}"><div class="arrow-down"></div></a><a href="/upvote/{{song.info['uri']}}"><div class="arrow-up"></div></a><div style="float:right; margin-right:30px;">{% if song.info['score'] >= 0 %}<div style="color: green">{{song.info['score']}}</div>{% else %}<div style="color: red">{{song.info['score']}}</div>{% endif %}</div></li>
+          <li class="list-group-item"><img src="{{song.info['artwork']}}" height="50px" width="50px" style="margin-right: 10px">{{song.info['name']}} - {{song.info['artist']}} <a href="/downvote/{{song.info['uri']}}"><div class="arrow-down"></div></a><a href="/upvote/{{song.info['uri']}}"><div class="arrow-up"></div></a><div style="float:right; margin-right:30px;">{% if song.info['score'] >= 0 %}<div style="color: green">{{song.info['score']}}</div>{% else %}<div style="color: red">{{song.info['score']}}</div>{% endif %}</div></li>
           <!-- For loop creating a bunch of those li cards with the song names - Artist Name and Having the icons next to that-->
           {% endfor %}
         </ul>

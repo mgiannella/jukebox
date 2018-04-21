@@ -11,7 +11,7 @@
 <div class="mx-auto card" style="width: 30%; ">
         <ul class="list-group list-group-flush">
             {% for song in searchArray %}
-          <li class="list-group-item"><a href="/add/{{song.info['uri']}}">{{song.info['name']}} - {{song.info['artist']}}</a></li>
+          <li class="list-group-item"><img src="{{song.info['artwork']}}" height="50px" width="50px" style="margin-right: 10px"><a href="/add/{{song.info['uri']}}">{{song.info['name']}} - {{song.info['artist']}}</a></li>
           <!-- For loop creating a bunch of those li cards with the song names - Artist Name and Having the icons next to that-->
           {% endfor %}
         </ul>

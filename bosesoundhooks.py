@@ -6,7 +6,7 @@ def play(uri):
     return 'hi'
 
 def getTime():
-    r = requests.get(CONST_IP_OF_SPEAKER)
+    r = requests.get(CONST_IP_OF_SPEAKER+'/now_playing')
     print(r.text)
 
 getTime()
