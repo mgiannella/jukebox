@@ -6,9 +6,10 @@ import spotify
 from Queue import Queue
 import datetime
 import random, string
-import threading
+from threading import Thread
 from bosesoundhooks import play, getTime
 import webbrowser
+from time import sleep
 
 access_token = ''
 app = Flask(__name__)
@@ -91,7 +92,29 @@ def login():
     print(access_token)
     return redirect("http://localhost:8000")
 
+def worker(x=0):
+    if x ==0:
+        sleep(10)
+    print('working')
+    while songs.nowPlaying == None:
+        print('Nothing playing')
+        sleep(1)
+    play(songs.nowPlaying)
+    sleep(15)
+    a = getTime()
+    sleep(a-10)
+    while getTime() > 5:
+        sleep(1)
+    if songs.size >= 1:
+        songs.nowPlaying = songs.get()
+        return worker(x+1)
+    else:
+        return
 
 
 if __name__ == '__main__':
+    print('Starting thread')
+    t = Thread(target=worker)
+    t.start()
     app.run(host = '0.0.0.0', port=8000, debug=False)
+    

@@ -1,17 +1,18 @@
 {% extends 'base.html' %}
 {% block container %}
 <form action="/search" method="POST">
-    <div class="mx-auto input-group" style="width:30%">
-        <input type="text" class="form-control" placeholder="Enter a Song..." name="SongSearch" id="SongSearch">
-        <span class="input-group-btn">
-          <input class="btn btn-default" type="submit" value="Submit"></button>
-        </span>
-    </div>
+  <div class="mx-auto input-group" style="width:80%">
+      <input type="text" class="form-control" style="background:rgb(77, 76, 76); color: white;"placeholder="Enter a Song..." name="SongSearch" id="SongSearch">
+      <span class="input-group-btn">
+        <input class="btn btn-default" style="background:rgb(100,100,100); color: rgba(226, 225, 225, 0.61);" type="submit" value="Submit"></button>
+      </span>
+  </div>
+</form>
     <br />
-<div class="mx-auto card" style="width: 30%; ">
+<div class="mx-auto card" style="width: 80%; background:rgb(77, 76, 76); color: white;">
         <ul class="list-group list-group-flush">
             {% for song in searchArray %}
-          <li class="list-group-item"><img src="{{song.info['artwork']}}" height="50px" width="50px" style="margin-right: 10px"><a href="/add/{{song.info['uri']}}">{{song.info['name']}} - {{song.info['artist']}}</a></li>
+          <li class="list-group-item" style="background:rgb(77, 76, 76); color: white;"><img src="{{song.info['artwork']}}" height="50px" width="50px" style="margin-right: 10px"><a href="/add/{{song.info['uri']}}" style="color: white">{{song.info['name']}} - {{song.info['artist']}}</a></li>
           <!-- For loop creating a bunch of those li cards with the song names - Artist Name and Having the icons next to that-->
           {% endfor %}
         </ul>

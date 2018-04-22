@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 {% block container %}
 <form action="/search" method="POST">
-  <div class="mx-auto input-group" style="width:30%">
+  <div class="mx-auto input-group" style="width:80%">
       <input type="text" class="form-control" style="background:rgb(77, 76, 76); color: white;"placeholder="Enter a Song..." name="SongSearch" id="SongSearch">
       <span class="input-group-btn">
         <input class="btn btn-default" style="background:rgb(100,100,100); color: rgba(226, 225, 225, 0.61);" type="submit" value="Submit"></button>
       </span>
   </div>
+</form>
   <br />
 {% if error != None %}
 <div class="alert alert-danger mx-auto" role="alert" style="width:30%">
@@ -24,7 +25,7 @@
 </div>
 {% endif %}
 {% if nowPlaying != None %}  
-<div class="mx-auto card" style="width: 30%; ">
+<div class="mx-auto card" style="width: 80%; background:rgb(77, 76, 76); color: white;">
         
         <div class="card-header">
           <img src="{{nowPlaying.info['artwork']}}" height="50px" width="50px" style="margin-right: 10px"><b>NOW PLAYING: </b>{{ nowPlaying.info['name'] }} - {{ nowPlaying.info['artist']}} <!--This will display the song that is now playing if rendered in Flask properly-->
@@ -32,7 +33,7 @@
         {% if size > 0 %}
         <ul class="list-group list-group-flush">
             {% for song in songArray %}
-          <li class="list-group-item"><img src="{{song.info['artwork']}}" height="50px" width="50px" style="margin-right: 10px">{{song.info['name']}} - {{song.info['artist']}} <a href="/downvote/{{song.info['uri']}}"><div class="arrow-down"></div></a><a href="/upvote/{{song.info['uri']}}"><div class="arrow-up"></div></a><div style="float:right; margin-right:30px;">{% if song.info['score'] >= 0 %}<div style="color: green">{{song.info['score']}}</div>{% else %}<div style="color: red">{{song.info['score']}}</div>{% endif %}</div></li>
+          <li class="list-group-item" style="background:rgb(77, 76, 76); color: white;"><img src="{{song.info['artwork']}}" height="50px" width="50px" style="margin-right: 10px">{{song.info['name']}} - {{song.info['artist']}} <a href="/downvote/{{song.info['uri']}}"><div class="arrow-down"></div></a><a href="/upvote/{{song.info['uri']}}"><div class="arrow-up"></div></a><div style="float:right; margin-right:30px;">{% if song.info['score'] >= 0 %}<div style="color: green">{{song.info['score']}}</div>{% else %}<div style="color: red">{{song.info['score']}}</div>{% endif %}</div></li>
           <!-- For loop creating a bunch of those li cards with the song names - Artist Name and Having the icons next to that-->
           {% endfor %}
         </ul>

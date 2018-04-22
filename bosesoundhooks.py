@@ -1,12 +1,12 @@
 import requests
 from bs4 import BeautifulSoup
 from song import Song
+from time import sleep
 CONST_IP_OF_SPEAKER = 'http://192.168.1.251:8090'
 
 def play(song):
-    data = '<ContentItem source="SPOTIFY" type="uri" sourceAccount="mikegiannella" location="{}"><itemName>{}</itemName></ContentItem>'.format(song.info['uri'],song.info['name'])
-    r = requests.post(CONST_IP_OF_SPEAKER+'/select', data)
-    print(r.text)
+    data = '<ContentItem source="SPOTIFY" type="uri" sourceAccount="mikegiannella" location="spotify:track:{}"><itemName>{}</itemName></ContentItem>'.format(song.info['uri'],song.info['name'])
+    requests.post(CONST_IP_OF_SPEAKER+'/select', data)
 
 # Gets time remaining in seconds
 def getTime():
