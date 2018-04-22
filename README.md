@@ -25,8 +25,8 @@ This project was developed to incorporate the BOSE SoundTouch API
 
 ## Contributors
 
-Let people know how they can dive into the project, include important links to things like issue trackers, irc, twitter accounts if applicable.
+Let people know how they can dive into the project, include important links to things like issue trackers, irc, twitter accounts if applicable. 
 
 ## License
 
-A short snippet describing the license (MIT, Apache, etc.)
+This project is distributed under the MIT license. See https://opensource.org/licenses/MIT for details. 
