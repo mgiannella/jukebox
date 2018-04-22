@@ -22,11 +22,11 @@ def generateUname():
 
 @app.route('/') #Queue
 def index():
-    if request.cookies.get('name') == None:
-        resp = make_response(render_template('queue.html', songArray=songs.queue, size=songs.size, nowPlaying=songs.nowPlaying, error=None))
+    if request.cookies.get('username') == None:
+        resp = make_response(render_template('queue.html', songArray=songs.queue, size=songs.size, nowPlaying=songs.nowPlaying, error=None, errorone=None,errortwo=None))
         resp.set_cookie('username', generateUname(), expires=datetime.datetime.now() + datetime.timedelta(days=30)) 
         return resp 
-    return render_template('queue.html', songArray=songs.queue, size=songs.size, nowPlaying=songs.nowPlaying, error=None)
+    return render_template('queue.html', songArray=songs.queue, size=songs.size, nowPlaying=songs.nowPlaying, error=None, errorone=None, errortwo=None)
         
 @app.route('/search', methods=['GET', 'POST'])
 def search():
@@ -34,11 +34,17 @@ def search():
     if request.method == 'POST':
         searchResults.clear()
         query = request.form['SongSearch']
+        if query == '':
+            return render_template('queue.html', songArray=songs.queue, size=songs.size, nowPlaying=songs.nowPlaying, error=None, errorone=None, errortwo='e1')
         url = 'https://api.spotify.com/v1/search'
         header = {'Authorization': 
         'Bearer {}'.format(access_token)}
         payload = {'q':query, 'type':'track', 'market':'US', 'limit':5}
-        r = requests.get(url, params = payload, headers = header)
+        try:
+            r = requests.get(url, params = payload, headers = header)
+        except Exception as e:
+            print(str(e))
+            return redirect('/',code=302)
         searchResults = spotify.saveResults(r.json())
     return render_template('search.html', searchArray=searchResults)
 @app.route('/add/<uri>')
@@ -46,22 +52,26 @@ def add(uri):
     global searchResults
     for song in searchResults:
         if song.info['uri'] == uri:
-            songs.add(song)
-    return redirect("/", code=302)
+            name = request.cookies.get('username')
+            if songs.add(song, name) == None:
+                return redirect("/", code=302)
+            else:
+               return render_template('queue.html', songArray=songs.queue, size=songs.size, nowPlaying=songs.nowPlaying, error=None, errorone='e1', errortwo=None) 
+    
 
 @app.route('/downvote/<uri>')
 def downvote(uri):
-    if songs.downvote(uri, request.cookies.get('name')) == None:
+    if songs.downvote(uri, request.cookies.get('username')) == None:
         return redirect("/", code=302)
     else:
-        return render_template('queue.html', songArray=songs.queue, size=songs.size, nowPlaying=songs.nowPlaying, error='e1')
+        return render_template('queue.html', songArray=songs.queue, size=songs.size, nowPlaying=songs.nowPlaying, error='e1', errorone=None, errortwo=None)
 
 @app.route('/upvote/<uri>')
 def upvote(uri):
-    if songs.upvote(uri, request.cookies.get('name')) == None:
+    if songs.upvote(uri, request.cookies.get('username')) == None:
         return redirect("/", code=302)
     else:
-        return render_template('queue.html', songArray=songs.queue, size=songs.size, nowPlaying=songs.nowPlaying, error='e1')
+        return render_template('queue.html', songArray=songs.queue, size=songs.size, nowPlaying=songs.nowPlaying, error='e1', errorone=None, errortwo=None)
 
 
 def nextSong():
@@ -81,5 +91,7 @@ def login():
     print(access_token)
     return redirect("http://localhost:8000")
 
+
+
 if __name__ == '__main__':
-    app.run(host = '127.0.0.1', port=8000, debug=False)
+    app.run(host = '0.0.0.0', port=8000, debug=False)

@@ -13,6 +13,16 @@
   You have already voted on this song, so you cannot vote again!
 </div>
 {% endif %}
+{% if errorone != None %}
+<div class="alert alert-danger mx-auto" role="alert" style="width:30%">
+  You've already added this song!
+</div>
+{% endif %}
+{% if errortwo != None %}
+<div class="alert alert-danger mx-auto" role="alert" style="width:30%">
+  Please enter a search query!
+</div>
+{% endif %}
 {% if nowPlaying != None %}  
 <div class="mx-auto card" style="width: 30%; ">
         
