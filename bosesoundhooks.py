@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from song import Song
 from time import sleep
-CONST_IP_OF_SPEAKER = 'http://192.168.1.251:8090'
+CONST_IP_OF_SPEAKER = 'http://192.168.1.92:8090'
 
 def play(song):
     data = '<ContentItem source="SPOTIFY" type="uri" sourceAccount="mikegiannella" location="spotify:track:{}"><itemName>{}</itemName></ContentItem>'.format(song.info['uri'],song.info['name'])

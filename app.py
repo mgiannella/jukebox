@@ -15,8 +15,6 @@ access_token = ''
 app = Flask(__name__)
 songs = Queue()
 searchResults = []
-webbrowser.open('https://accounts.spotify.com/authorize/?client_id=def27a12301844df8891ddab406ef2a3&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Flogin')
-#Open for authentication
 
 def generateUname():
     return ''.join(random.choices(string.ascii_letters + string.digits, k=10))
@@ -33,7 +31,6 @@ def index():
 def search():
     global searchResults
     if request.method == 'POST':
-        searchResults.clear()
         query = request.form['SongSearch']
         if query == '':
             return render_template('queue.html', songArray=songs.queue, size=songs.size, nowPlaying=songs.nowPlaying, error=None, errorone=None, errortwo='e1')
@@ -46,8 +43,11 @@ def search():
         except Exception as e:
             print(str(e))
             return redirect('/',code=302)
-        searchResults = spotify.saveResults(r.json())
-    return render_template('search.html', searchArray=searchResults)
+        searchResultshere = spotify.saveResults(r.json())
+        for obj in searchResultshere:
+            searchResults.append(obj)
+    return render_template('search.html', searchArray=searchResultshere)
+
 @app.route('/add/<uri>')
 def add(uri):
     global searchResults
@@ -62,14 +62,14 @@ def add(uri):
 
 @app.route('/downvote/<uri>')
 def downvote(uri):
-    if songs.downvote(uri, request.cookies.get('username')) == None:
+    if songs.downvote(uri, request.cookies.get('username')) != 'e1':
         return redirect("/", code=302)
     else:
         return render_template('queue.html', songArray=songs.queue, size=songs.size, nowPlaying=songs.nowPlaying, error='e1', errorone=None, errortwo=None)
 
 @app.route('/upvote/<uri>')
 def upvote(uri):
-    if songs.upvote(uri, request.cookies.get('username')) == None:
+    if songs.upvote(uri, request.cookies.get('username')) != 'e1':
         return redirect("/", code=302)
     else:
         return render_template('queue.html', songArray=songs.queue, size=songs.size, nowPlaying=songs.nowPlaying, error='e1', errorone=None, errortwo=None)
@@ -92,6 +92,10 @@ def login():
     print(access_token)
     return redirect("http://localhost:8000")
 
+@app.route('/qrcode')
+def displayQR():
+    return render_template('qrcode.html')
+
 def worker(x=0):
     if x ==0:
         sleep(10)
@@ -100,9 +104,10 @@ def worker(x=0):
         print('Nothing playing')
         sleep(1)
     play(songs.nowPlaying)
-    sleep(15)
+    sleep(3)
     a = getTime()
-    sleep(a-10)
+    if (a - 10) > 0:
+        sleep(a-10)
     while getTime() > 5:
         sleep(1)
     if songs.size >= 1:
@@ -116,5 +121,7 @@ if __name__ == '__main__':
     print('Starting thread')
     t = Thread(target=worker)
     t.start()
+    webbrowser.open('https://accounts.spotify.com/authorize/?client_id=def27a12301844df8891ddab406ef2a3&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Flogin')
     app.run(host = '0.0.0.0', port=8000, debug=False)
+    
     

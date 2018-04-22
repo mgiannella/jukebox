@@ -11,6 +11,7 @@ class Queue:
             self.nowPlaying = Song
             self.size+=1
             Song.users.append(name)
+            return None
         else:
             duplicate = False
             if Song.info['uri'] == self.nowPlaying.info['uri']:
