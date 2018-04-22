@@ -9,13 +9,18 @@ This project was developed to incorporate the BOSE SoundTouch API
 
 ## Modules 
 
-* requests               * datetime 
-* flask                  * random
-* json                   * string
-* spotify                * threading
-* Queue                  * bosesoundhooks
-* webbrowser             * time 
-
+* requests            
+* datetime 
+* flask                 
+* random
+* json                  
+* string
+* spotify               
+* threading
+* Queue                 
+* bosesoundhooks
+* webbrowser            
+* time 
 
 ## Contributors
 
