@@ -1,2 +1,0 @@
-client_id = 'def27a12301844df8891ddab406ef2a3'
-access_token = 'BQCuP-915dkuSlUD041U8gtumG0SLl3LmoSpOZdF9maf09Tf5koWPeegboJFbnC4B7S-dXWHlO9TcHo3c_O_I867wEiRaR8qA8sDcc_mKFmHJWP_C4dljWgCU_GlFRXYGTF6xRqXdMBh'

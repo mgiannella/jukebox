@@ -1,10 +1,15 @@
 import requests
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, make_response
 from song import Song
 import json
 import spotify
-import webbrowser
 from Queue import Queue
+import datetime
+import random, string
+import threading
+from bosesoundhooks import play, getTime
+import webbrowser
+
 access_token = ''
 app = Flask(__name__)
 songs = Queue()
@@ -12,10 +17,16 @@ searchResults = []
 webbrowser.open('https://accounts.spotify.com/authorize/?client_id=def27a12301844df8891ddab406ef2a3&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Flogin')
 #Open for authentication
 
+def generateUname():
+    return ''.join(random.choices(string.ascii_letters + string.digits, k=10))
+
 @app.route('/') #Queue
 def index():
-    #print(songs.nowPlaying.info['name'])
-    return render_template('queue.html', songArray=songs.queue, size=songs.size, nowPlaying=songs.nowPlaying)
+    if request.cookies.get('name') == None:
+        resp = make_response(render_template('queue.html', songArray=songs.queue, size=songs.size, nowPlaying=songs.nowPlaying, error=None))
+        resp.set_cookie('username', generateUname(), expires=datetime.datetime.now() + datetime.timedelta(days=30)) 
+        return resp 
+    return render_template('queue.html', songArray=songs.queue, size=songs.size, nowPlaying=songs.nowPlaying, error=None)
         
 @app.route('/search', methods=['GET', 'POST'])
 def search():
@@ -40,13 +51,18 @@ def add(uri):
 
 @app.route('/downvote/<uri>')
 def downvote(uri):
-    songs.downvote(uri)
-    return redirect("/", code=302)
+    if songs.downvote(uri, request.cookies.get('name')) == None:
+        return redirect("/", code=302)
+    else:
+        return render_template('queue.html', songArray=songs.queue, size=songs.size, nowPlaying=songs.nowPlaying, error='e1')
 
 @app.route('/upvote/<uri>')
 def upvote(uri):
-    songs.upvote(uri)
-    return redirect("/", code=302)
+    if songs.upvote(uri, request.cookies.get('name')) == None:
+        return redirect("/", code=302)
+    else:
+        return render_template('queue.html', songArray=songs.queue, size=songs.size, nowPlaying=songs.nowPlaying, error='e1')
+
 
 def nextSong():
     songs.nowPlaying = songs.get()

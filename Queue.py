@@ -28,17 +28,27 @@ class Queue:
         else:
             return self.queue.pop(0)
     
-    def upvote(self, URI): 
+    def upvote(self, URI, name): 
         for item in self.queue: 
             if item.info['uri'] == URI: 
-                item.info['score'] += 1
+                if name not in item.users:
+                    item.info['score'] += 1
+                    item.users.append(name)
+                else:
+                    return 'e1'
         self.queue.sort(key = lambda s: s.info['score'], reverse = True)
+        return None
     
-    def downvote(self, URI): 
+    def downvote(self, URI, name): 
         for item in self.queue: 
             if item.info['uri'] == URI: 
-                item.info['score'] -= 1
+                if name not in item.users:
+                    item.info['score'] -= 1
+                    item.users.append(name)
+                else:
+                    return 'e1'
         self.queue.sort(key = lambda s: s.info['score'], reverse = True)
+        return None
 
 
     

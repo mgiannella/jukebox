@@ -8,5 +8,7 @@ class Song:
             'uri': URI,
             'score': 1,
             'explicit': explicit
+            
         }
+        self.users = []
 

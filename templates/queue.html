@@ -2,17 +2,22 @@
 {% block container %}
 <form action="/search" method="POST">
   <div class="mx-auto input-group" style="width:30%">
-      <input type="text" class="form-control" placeholder="Enter a Song..." name="SongSearch" id="SongSearch">
+      <input type="text" class="form-control" style="background:rgb(77, 76, 76); color: white;"placeholder="Enter a Song..." name="SongSearch" id="SongSearch">
       <span class="input-group-btn">
-        <input class="btn btn-default" type="submit" value="Submit"></button>
+        <input class="btn btn-default" style="background:rgb(100,100,100); color: rgba(226, 225, 225, 0.61);" type="submit" value="Submit"></button>
       </span>
   </div>
   <br />
+{% if error != None %}
+<div class="alert alert-danger mx-auto" role="alert" style="width:30%">
+  You have already voted on this song, so you cannot vote again!
+</div>
+{% endif %}
 {% if nowPlaying != None %}  
 <div class="mx-auto card" style="width: 30%; ">
         
         <div class="card-header">
-          <img src="{{nowPlaying.info['artwork']}}" height="50px" width="50px" style="margin-right: 10px">{{ nowPlaying.info['name'] }} - {{ nowPlaying.info['artist']}} <!--This will display the song that is now playing if rendered in Flask properly-->
+          <img src="{{nowPlaying.info['artwork']}}" height="50px" width="50px" style="margin-right: 10px"><b>NOW PLAYING: </b>{{ nowPlaying.info['name'] }} - {{ nowPlaying.info['artist']}} <!--This will display the song that is now playing if rendered in Flask properly-->
         </div>
         {% if size > 0 %}
         <ul class="list-group list-group-flush">
